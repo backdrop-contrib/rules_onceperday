@@ -1,0 +1,5 @@
+name = Once per day
+description = Provides a Rules event that occurs once per day, at a set hour, on specified days of the week.
+core = 7.x
+
+dependencies[] = rules

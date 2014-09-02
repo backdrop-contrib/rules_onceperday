@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * Implements hook_uninstall().
+ */
+function onceperday_uninstall() {
+  variable_del('onceperday_hour');
+  variable_del('onceperday_last');
+  variable_del('onceperday_days');
+}
