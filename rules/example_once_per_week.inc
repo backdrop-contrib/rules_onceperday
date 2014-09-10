@@ -2,12 +2,12 @@
 
 $rule = '{ "rules_once_per_week" : {
     "LABEL" : "Example once per week",
-    "ACTIVE" : false,
     "PLUGIN" : "reaction rule",
+    "ACTIVE" : false,
     "OWNER" : "rules",
-    "REQUIRES" : [ "onceperday", "rules" ],
+    "REQUIRES" : [ "rules_onceperday", "rules" ],
     "ON" : { "once_per_day" : [] },
-    "IF" : [ { "onceperday_condition_dayofweek" : { "text1" : "1" } } ],
+    "IF" : [ { "rules_onceperday_condition_dayofweek" : { "text1" : "1" } } ],
     "DO" : [
       { "mail" : {
           "to" : "mail@example.com",
