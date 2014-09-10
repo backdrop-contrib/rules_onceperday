@@ -5,7 +5,7 @@
  */
 function rules_onceperday_permission() {
   return array(
-    'administer rules_rules_onceperday' => array(
+    'administer rules_onceperday' => array(
       'title' => t('Administer Once per Day settings')));
 }
 
@@ -13,7 +13,7 @@ function rules_onceperday_permission() {
  * Implements hook_cron().
  */
 function rules_onceperday_cron() {
-  // Once per day.
+  // Once per day event.
   $last_timestamp = variable_get('rules_onceperday_last', 0);
   $last_date = date('Y-m-d', $last_timestamp);
   $this_date = date('Y-m-d');
@@ -31,14 +31,14 @@ function rules_onceperday_cron() {
  */
 function rules_onceperday_menu() {
   $items = array();
-  $items['admin/config/workflow/rules/rules_rules_onceperday'] = array(
+  $items['admin/config/workflow/rules/rules_onceperday'] = array(
     'title' => 'Once per day',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array(
       'rules_onceperday_admin_form'),
     'access arguments' => array(
-      'administer rules_rules_onceperday'));
+      'administer rules_onceperday'));
   return $items;
 }
 

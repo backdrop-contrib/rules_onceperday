@@ -6,5 +6,4 @@
 function rules_onceperday_uninstall() {
   variable_del('rules_onceperday_hour');
   variable_del('rules_onceperday_last');
-  variable_del('rules_onceperday_days');
 }
