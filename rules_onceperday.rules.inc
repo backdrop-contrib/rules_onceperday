@@ -19,14 +19,25 @@ function rules_onceperday_rules_condition_info() {
     'rules_onceperday_condition_dayofweek' => array(
       'label' => t('Current day of the week'),
       'parameter' => array(
-        'text1' => array(
+        'weekday' => array(
           'label' => t('Day of the week is a'),
           'type' => 'integer',
           'restriction' => 'input',
           'options list' => 'rules_onceperday_weekday_options')),
       'group' => t('Once per day'),
       'callbacks' => array(
-        'execute' => 'rules_onceperday_compare_weekday')));
+        'execute' => 'rules_onceperday_compare_weekday')),
+    'rules_onceperday_condition_dayofmonth' => array(
+      'label' => t('Current day of the month'),
+      'parameter' => array(
+        'monthday' => array(
+          'label' => t('Day of the month is'),
+          'description' => t('Enter the day number in the month, between 1 and 31:'),
+          'type' => 'integer',
+          'restriction' => 'input')),
+      'group' => t('Once per day'),
+      'callbacks' => array(
+        'execute' => 'rules_onceperday_compare_monthday')));
 }
 
 /**
@@ -58,5 +69,25 @@ function rules_onceperday_compare_weekday($weekday_selected) {
   }
   elseif ($weekday_selected == 8) {
     return ($dayofweek == 0 or $dayofweek == 6);
+  }
+}
+
+/**
+ * Callback function for rules condition test.
+ */
+function rules_onceperday_compare_monthday($monthday_entered) {
+  $dayofmonth = date('d');
+  return $dayofmonth == $monthday_entered;
+}
+
+/**
+ * Validation function for rules condition input form.
+ */
+function rules_onceperday_condition_dayofmonth_validate($condition) {
+  if ($condition->settings['monthday'] > 31) {
+    form_set_error('monthday', 'Day of the month cannot be greater than 31.');
+  }
+  elseif ($condition->settings['monthday'] < 1) {
+    form_set_error('monthday', 'Day of the month cannot be less than 1.');
   }
 }
