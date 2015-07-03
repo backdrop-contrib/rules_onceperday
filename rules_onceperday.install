@@ -9,7 +9,7 @@ function rules_onceperday_uninstall() {
 }
 
 /**
- * Implements hook_update_N.
+ * Update old "day of week" rule conditions to use new parameter name.
  */
 function rules_onceperday_update_7100() {
   // Update any existing rule dayofweek conditions to change parameter name from "text1" to "weekday".
