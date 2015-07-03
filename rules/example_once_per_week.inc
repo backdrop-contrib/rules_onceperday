@@ -7,7 +7,7 @@ $rule = '{ "rules_once_per_week" : {
     "OWNER" : "rules",
     "REQUIRES" : [ "rules_onceperday", "rules" ],
     "ON" : { "once_per_day" : [] },
-    "IF" : [ { "rules_onceperday_condition_dayofweek" : { "text1" : "1" } } ],
+    "IF" : [ { "rules_onceperday_condition_dayofweek" : { "weekday" : "1" } } ],
     "DO" : [
       { "mail" : {
           "to" : "mail@example.com",
