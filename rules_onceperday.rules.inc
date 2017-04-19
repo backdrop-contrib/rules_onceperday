@@ -92,7 +92,6 @@ function rules_onceperday_compare_weekday($weekday_selected) {
  * Callback function for rules condition test.
  */
 function rules_onceperday_compare_monthday($comparison, $monthday_entered) {
-  watchdog('ajc', print_r(func_get_args(), TRUE));
   $dayofmonth = date('d');
   switch ($comparison) {
     case '==':
