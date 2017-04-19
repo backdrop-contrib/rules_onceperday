@@ -1,0 +1,22 @@
+{ "rules_onceperday_example_first_tuesday_of_the_month" : {
+    "LABEL" : "Example first Tuesday of the month",
+    "PLUGIN" : "reaction rule",
+    "ACTIVE" : false,
+    "OWNER" : "rules",
+    "REQUIRES" : [ "rules_onceperday", "rules" ],
+    "ON" : { "once_per_day" : [] },
+    "IF" : [
+      { "rules_onceperday_condition_dayofweek" : { "weekday" : "2" } },
+      { "rules_onceperday_condition_dayofmonth" : { "comparison" : "<=", "monthday" : "7" } }
+    ],
+    "DO" : [
+      { "mail" : {
+          "to" : "[site:mail]",
+          "subject" : "It is the first Tuesday of the Month!",
+          "message" : "Message sent [site:current-date]",
+          "language" : [ "" ]
+        }
+      }
+    ]
+  }
+}

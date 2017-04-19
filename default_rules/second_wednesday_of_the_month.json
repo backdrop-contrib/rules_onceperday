@@ -1,0 +1,23 @@
+{ "rules_onceperday_example_second_wednesday_of_the_month" : {
+    "LABEL" : "Example second Wednesday of the month",
+    "PLUGIN" : "reaction rule",
+    "ACTIVE" : false,
+    "OWNER" : "rules",
+    "REQUIRES" : [ "rules_onceperday", "rules" ],
+    "ON" : { "once_per_day" : [] },
+    "IF" : [
+      { "rules_onceperday_condition_dayofweek" : { "weekday" : "3" } },
+      { "rules_onceperday_condition_dayofmonth" : { "comparison" : ">=", "monthday" : "8" } },
+      { "rules_onceperday_condition_dayofmonth" : { "comparison" : "<=", "monthday" : "14" } }
+    ],
+    "DO" : [
+      { "mail" : {
+          "to" : "[site:mail]",
+          "subject" : "It is the second Wednesday of the Month!",
+          "message" : "Message sent [site:current-date]",
+          "language" : [ "" ]
+        }
+      }
+    ]
+  }
+}

@@ -22,7 +22,7 @@ using the provided "Current day of the week" condition.
 The module defines a default disabled rule, that shows how an email can be sent
 once a week every Monday.
 
- 
+
 CONTACT
 -------
 

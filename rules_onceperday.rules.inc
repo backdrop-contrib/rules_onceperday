@@ -1,18 +1,25 @@
 <?php
 
 /**
- * Implementation of hook_rules_event_info().
+ * @file
+ * Standard Rules include file.
+ */
+
+/**
+ * Implements hook_rules_event_info().
  */
 function rules_onceperday_rules_event_info() {
   return array(
     'once_per_day' => array(
       'group' => t('Once per day'),
       'label' => t('Once per day'),
-      'help' => t('Event fired when cron runs, but a maximum of once per day.')));
+      'help' => t('Event fired when cron runs, but a maximum of once per day.'),
+    ),
+  );
 }
 
 /**
- * Implementation of hook_rules_condition_info().
+ * Implements hook_rules_condition_info().
  */
 function rules_onceperday_rules_condition_info() {
   return array(
@@ -23,10 +30,14 @@ function rules_onceperday_rules_condition_info() {
           'label' => t('Day of the week is a'),
           'type' => 'integer',
           'restriction' => 'input',
-          'options list' => 'rules_onceperday_weekday_options')),
+          'options list' => 'rules_onceperday_weekday_options',
+        ),
+      ),
       'group' => t('Once per day'),
       'callbacks' => array(
-        'execute' => 'rules_onceperday_compare_weekday')),
+        'execute' => 'rules_onceperday_compare_weekday',
+      ),
+    ),
     'rules_onceperday_condition_dayofmonth' => array(
       'label' => t('Current day of the month'),
       'parameter' => array(
@@ -36,15 +47,21 @@ function rules_onceperday_rules_condition_info() {
           'type' => 'text',
           'options list' => 'rules_onceperday_comparison_options',
           'restriction' => 'input',
-          'default value' => '=='),
+          'default value' => '==',
+        ),
         'monthday' => array(
           'label' => t('Day of the month'),
           'description' => t('The day number in the month, between 1 and 31.'),
           'type' => 'integer',
-          'restriction' => 'input')),
+          'restriction' => 'input',
+        ),
+      ),
       'group' => t('Once per day'),
       'callbacks' => array(
-        'execute' => 'rules_onceperday_compare_monthday')));
+        'execute' => 'rules_onceperday_compare_monthday',
+      ),
+    ),
+  );
 }
 
 /**
@@ -60,16 +77,21 @@ function rules_onceperday_weekday_options() {
     5 => 'Friday',
     6 => 'Saturday',
     7 => 'Working day (Monday to Friday)',
-    8 => 'Weekend (Saturday or Sunday)');
+    8 => 'Weekend (Saturday or Sunday)',
+  );
 }
 
+/**
+ * Callback function for rules numerical comparison options.
+ */
 function rules_onceperday_comparison_options() {
   return array(
     '==' => 'equals',
     '>' => 'is greater than',
     '<' => 'is less than',
     '>=' => 'is greater than, or equal to',
-    '<=' => 'is less than, or equal to');
+    '<=' => 'is less than, or equal to',
+  );
 }
 
 /**

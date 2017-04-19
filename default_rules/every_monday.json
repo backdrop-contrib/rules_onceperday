@@ -1,7 +1,5 @@
-<?php
-
-$rule = '{ "rules_once_per_week" : {
-    "LABEL" : "Example once per week",
+{ "rules_onceperday_example_every_monday" : {
+    "LABEL" : "Example every Monday",
     "PLUGIN" : "reaction rule",
     "ACTIVE" : false,
     "OWNER" : "rules",
@@ -10,12 +8,12 @@ $rule = '{ "rules_once_per_week" : {
     "IF" : [ { "rules_onceperday_condition_dayofweek" : { "weekday" : "1" } } ],
     "DO" : [
       { "mail" : {
-          "to" : "mail@example.com",
+          "to" : "[site:mail]",
           "subject" : "It is a Monday!",
-          "message" : "Once a week message sent [site:current-date]",
+          "message" : "Message sent [site:current-date]",
           "language" : [ "" ]
         }
       }
     ]
   }
-}';
+}
