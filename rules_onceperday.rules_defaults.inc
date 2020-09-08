@@ -1,20 +1,17 @@
 <?php
 
 /**
- * @file
- * Defines default Rule definitions.
- */
-
-/**
  * Implements hook_default_rules_configuration().
  */
 function rules_onceperday_default_rules_configuration() {
-  $rules = array();
+  $config = array();
   $rules_path = drupal_get_path('module', 'rules_onceperday') . '/default_rules';
-  $files = file_scan_directory($rules_path, '/\.json$/');
-  foreach ($files as $file) {
-    $rule = rules_import(file_get_contents($file->uri));
-    $rules[$rule->name] = $rule;
+  $files = file_scan_directory($rules_path, '/\.inc$/');
+  foreach ($files as $filepath => $file) {
+    require $filepath;
+    if (isset($rule)) {
+      $config['mymodule_' . $file->name] = rules_import($rule);
+    }
   }
-  return $rules;
+  return $config;
 }

@@ -1,28 +1,24 @@
 <?php
 
 /**
- * Implements hook_uninstall().
+ * Move Rules Once per Day settings from variables to config.
  */
-function rules_onceperday_uninstall() {
-  variable_del('rules_onceperday_hour');
-  variable_del('rules_onceperday_last');
+function rules_onceperday_update_1000() {
+  $config = config('rules_onceperday.settings');
+
+  $config->set('last', update_variable_get('rules_onceperday_last', 0));
+  $config->set('hour', update_variable_get('rules_onceperday_hour', 'book'));
+  $config->save();
+
+  // Delete variables.
+  update_variable_del('rules_onceperday_last');
+  update_variable_del('rules_onceperday_hour');
 }
 
+
 /**
- * Update old "day of week" rule conditions to use new parameter name.
+ * Implements hook_update_last_removed().
  */
-function rules_onceperday_update_7100() {
-  // Update any existing rule dayofweek conditions to change parameter name from "text1" to "weekday".
-  $rules = rules_config_load_multiple(FALSE);
-  foreach ($rules as $rule) {
-    foreach ($rule->conditions() as $condition) {
-      if ($condition->getElementName() == 'rules_onceperday_condition_dayofweek') {
-        if (isset($condition->settings['text1'])) {
-          $condition->settings['weekday'] = $condition->settings['text1'];
-          unset($condition->settings['text1']);
-          $condition->save();
-        }
-      }
-    }
-  }
+function rules_onceperday_update_last_removed() {
+  return 7100;
 }

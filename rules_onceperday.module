@@ -9,20 +9,33 @@ function rules_onceperday_permission() {
       'title' => t('Administer Once per Day settings')));
 }
 
+
+/**
+ * Implements hook_config_info().
+ */
+function rules_onceperday_config_info() {
+  $prefixes['rules_onceperday.settings'] = array(
+    'label' => t('Settings'),
+    'group' => t('Rules Once per Day'),
+  );
+  return $prefixes;
+}
+
+
 /**
  * Implements hook_cron().
  */
 function rules_onceperday_cron() {
   // Once per day event.
-  $last_timestamp = variable_get('rules_onceperday_last', 0);
+  $last_timestamp = config_get('rules_onceperday.settings', 'last');
   $last_date = date('Y-m-d', $last_timestamp);
   $this_date = date('Y-m-d');
   $this_hour = date('H');
-  $after_hour = ($this_hour >= variable_get('rules_onceperday_hour', 0));
+  $after_hour = ($this_hour >= config_get('rules_onceperday.settings', 'hour'));
   $new_day = ($this_date != $last_date);
   if ($after_hour and $new_day) {
     rules_invoke_event('once_per_day');
-    variable_set('rules_onceperday_last', time());
+    config_set('rules_onceperday.settings', 'last', time());
   }
 }
 
@@ -32,13 +45,11 @@ function rules_onceperday_cron() {
 function rules_onceperday_menu() {
   $items = array();
   $items['admin/config/workflow/rules/rules_onceperday'] = array(
-    'title' => 'Once per day',
+    'title' => 'Once per Day',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
-    'page arguments' => array(
-      'rules_onceperday_admin_form'),
-    'access arguments' => array(
-      'administer rules_onceperday'));
+    'page arguments' => array('rules_onceperday_admin_form'),
+    'access arguments' => array('administer rules_onceperday'));
   return $items;
 }
 
@@ -49,10 +60,10 @@ function rules_onceperday_admin_form($form, &$form_state) {
   $form = array();
   $form['help'] = array(
     '#prefix' => '<p>',
-    '#markup' => 'The Once per Day module causes a Rules event to be triggered once, and only once, each day. It also provides a Rules condition to require a day of the week, for once per week actions.',
+    '#markup' => t('The Once per Day module causes a Rules event to be triggered once, and only once, each day. It also provides a Rules condition to require a day of the week, for once per week actions.'),
     '#suffix' => '</p>');
 
-  $last_triggered = variable_get('rules_onceperday_last');
+  $last_triggered = config_get('rules_onceperday.settings', 'last');
   if ($last_triggered) {
     $last_triggered = format_date($last_triggered, 'long');
   }
@@ -63,22 +74,22 @@ function rules_onceperday_admin_form($form, &$form_state) {
     '#title' => t('Last triggered'),
     '#type' => 'item',
     '#markup' => $last_triggered);
-  if (variable_get('rules_onceperday_last') != NULL) {
+  if (config_get('rules_onceperday.settings', 'last') != NULL) {
     $form['reset'] = array(
       '#value' => t('Reset last-triggered date'),
       '#type' => 'submit',
       '#submit' => array(
         'rules_onceperday_reset'));
   }
-  $form['rules_onceperday_hour'] = array(
+  $form['hour'] = array(
     '#title' => t('Hour in which to trigger Rules event.'),
     '#description' => t('The rules event will be triggered the first time cron runs in, or after, this hour (24 hour clock).'),
     '#type' => 'select',
     '#options' => range(0, 23),
-    '#default_value' => variable_get('rules_onceperday_hour', 0));
+    '#default_value' => config_get('rules_onceperday.settings', 'hour'));
 
-  $form = system_settings_form($form);
-  return $form;
+  $form['#config'] = 'rules_onceperday.settings';
+  return system_settings_form($form);
 }
 
 /**

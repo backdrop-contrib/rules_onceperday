@@ -61,6 +61,35 @@ function rules_onceperday_rules_condition_info() {
         'execute' => 'rules_onceperday_compare_monthday',
       ),
     ),
+    'rules_onceperday_condition_dayofquarter' => array(
+      'label' => t('Current day of the quarter'),
+      'parameter' => array(
+        'comparison' => array(
+          'label' => t('Comparison'),
+          'description' => t('The comparison operator.'),
+          'type' => 'text',
+          'options list' => 'rules_onceperday_comparison_options',
+          'restriction' => 'input',
+          'default value' => '==',
+        ),
+        'quartermonth' => array(
+          'label' => t('Month of the quarter'),
+          'description' => t('The month of the quarter.'),
+          'type' => 'integer',
+          'options list' => 'rules_onceperday_quartermonth_options',
+          'restriction' => 'input',
+        ),
+        'monthday' => array(
+          'label' => t('Day of the month'),
+          'description' => t('The day number in the month, between 1 and 31.'),
+          'type' => 'integer',
+          'restriction' => 'input',
+        ),
+      ),
+      'group' => t('Once per day'),
+        'callbacks' => array(
+          'execute' => 'rules_onceperday_compare_quarterday'),
+    ),
   );
 }
 
@@ -91,6 +120,14 @@ function rules_onceperday_comparison_options() {
     '<' => 'is less than',
     '>=' => 'is greater than, or equal to',
     '<=' => 'is less than, or equal to',
+  );
+}
+
+function rules_onceperday_quartermonth_options() {
+  return array(
+    0 => 'January, April, July, October',
+    1 => 'February, May, August, November',
+    2 => 'March, June, September, December',
   );
 }
 
@@ -128,6 +165,17 @@ function rules_onceperday_compare_monthday($comparison, $monthday_entered) {
     case '<=':
       return $dayofmonth <= $monthday_entered;
   }
+}
+
+/**
+ * Callback function for rules condition test.
+ */
+function rules_onceperday_compare_quarterday($comparison, $quarter_month_entered, $monthday_entered) {
+  $monthofquarter = (date('n') - 1) % 3;
+  if ($quarter_month_entered != $monthofquarter) {
+    return false;
+  }
+  return rules_onceperday_compare_monthday($comparison, $monthday_entered);
 }
 
 /**
