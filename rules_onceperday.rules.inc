@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Standard Rules include file.
@@ -17,6 +16,7 @@ function rules_onceperday_rules_event_info() {
     ),
   );
 }
+
 
 /**
  * Implements hook_rules_condition_info().
@@ -93,8 +93,9 @@ function rules_onceperday_rules_condition_info() {
   );
 }
 
+
 /**
- * Callback function for rules condition options.
+ * Return the rules condition options.
  */
 function rules_onceperday_weekday_options() {
   return array(
@@ -110,8 +111,9 @@ function rules_onceperday_weekday_options() {
   );
 }
 
+
 /**
- * Callback function for rules numerical comparison options.
+ * Return the rules numerical comparison options.
  */
 function rules_onceperday_comparison_options() {
   return array(
@@ -123,6 +125,10 @@ function rules_onceperday_comparison_options() {
   );
 }
 
+
+/**
+ * Return the month-of-the-quarter options.
+ */
 function rules_onceperday_quartermonth_options() {
   return array(
     0 => 'January, April, July, October',
@@ -131,8 +137,9 @@ function rules_onceperday_quartermonth_options() {
   );
 }
 
+
 /**
- * Callback function for rules condition test.
+ * Callback function for rules condition test for day of the week.
  */
 function rules_onceperday_compare_weekday($weekday_selected) {
   $dayofweek = date('w');
@@ -147,8 +154,9 @@ function rules_onceperday_compare_weekday($weekday_selected) {
   }
 }
 
+
 /**
- * Callback function for rules condition test.
+ * Callback function for rules condition test for day of the month.
  */
 function rules_onceperday_compare_monthday($comparison, $monthday_entered) {
   $dayofmonth = date('d');
@@ -167,16 +175,18 @@ function rules_onceperday_compare_monthday($comparison, $monthday_entered) {
   }
 }
 
+
 /**
- * Callback function for rules condition test.
+ * Callback function for rules condition test for day of the quarter.
  */
 function rules_onceperday_compare_quarterday($comparison, $quarter_month_entered, $monthday_entered) {
   $monthofquarter = (date('n') - 1) % 3;
   if ($quarter_month_entered != $monthofquarter) {
-    return false;
+    return FALSE;
   }
   return rules_onceperday_compare_monthday($comparison, $monthday_entered);
 }
+
 
 /**
  * Validation function for rules condition input form.
@@ -187,10 +197,10 @@ function rules_onceperday_condition_dayofmonth_validate($condition) {
     form_set_error('monthday', 'Day of the month cannot be greater than 31.');
   }
   elseif ($day > 30) {
-    drupal_set_message('The condition will not be satisfied in February, April, June, September, or November.', 'warning', FALSE);
+    backdrop_set_message(t('The condition will not be satisfied in February, April, June, September, or November.'), 'warning', FALSE);
   }
   elseif ($day > 28) {
-    drupal_set_message('The condition will not be satisfied in February, except in leap years.', 'warning', FALSE);
+    backdrop_set_message(t('The condition will not be satisfied in February, except in leap years.', 'warning'), FALSE);
   }
   elseif ($day < 1) {
     form_set_error('monthday', 'Day of the month cannot be less than 1.');

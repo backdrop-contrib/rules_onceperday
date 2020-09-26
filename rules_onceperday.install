@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Installation/uninstallation/migration functions.
+ */
 
 /**
  * Move Rules Once per Day settings from variables to config.
@@ -6,8 +10,9 @@
 function rules_onceperday_update_1000() {
   $config = config('rules_onceperday.settings');
 
-  $config->set('last', update_variable_get('rules_onceperday_last', 0));
-  $config->set('hour', update_variable_get('rules_onceperday_hour', 'book'));
+  // 'rules_onceperday_hour' is not set because it should be stored in state, not config.
+  $config->set('hour', update_variable_get('rules_onceperday_hour', 0));
+  $config->set('show_examples', 1);
   $config->save();
 
   // Delete variables.
