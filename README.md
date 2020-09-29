@@ -32,15 +32,13 @@ these examples if you wish via the configuration page.
 Documentation
 -------------
 
-Additional documentation is located in the Wiki:
-https://github.com/backdrop-contrib/rules-onceperday/wiki/Documentation.
+Additional documentation is located in the [Wiki](https://github.com/backdrop-contrib/rules_onceperday/wiki/Documentation).
 
 
 Issues
 ------
 
-Bugs and Feature requests should be reported in the Issue Queue:
-https://github.com/backdrop-contrib/rules-onceperday/issues.
+Bugs and Feature requests should be reported in the [Issue Queue](https://github.com/backdrop-contrib/rules_onceperday/issues).
 
 
 Current Maintainers
