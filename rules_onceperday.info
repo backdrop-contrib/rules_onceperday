@@ -1,8 +1,8 @@
-type = module
-name = Rules Once per Day
+name = Rules Once Per Day
 description = Provides a Rules event that occurs once per day, at a set hour, with Rules conditions to specify days of the week.
 package = Rules
 backdrop = 1.x
+type = module
 
 configure = admin/config/workflow/rules/rules_onceperday
 

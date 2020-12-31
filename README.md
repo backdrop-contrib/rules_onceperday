@@ -1,4 +1,4 @@
-Rules Once per Day
+Rules Once Per Day
 ==================
 
 Rules Once Per Day provides an event for Rules that is triggered once per day by
