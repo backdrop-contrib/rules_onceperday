@@ -12,6 +12,7 @@ function rules_onceperday_menu() {
   $items = array();
   $items['admin/config/workflow/rules/rules_onceperday'] = array(
     'title' => 'Once per day',
+    'type' => MENU_LOCAL_TASK,
     'description' => 'Configure Rules Once per Day.',
     'page callback' => 'backdrop_get_form',
     'page arguments' => array('rules_onceperday_settings_form'),
